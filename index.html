@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>odyssey-doctor</title>
+<meta name="description" content="Static checks for apps built on the Odyssey API JavaScript and Python SDKs, run on 17 public projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#000;--mute:#555;--line:#d9d9d9;--soft:#f5f5f5;--bg:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:980px;margin:0 auto;padding:40px 16px 64px}
+a{color:var(--ink)}
+header .kicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:0 0 6px}
+h1{font-size:30px;line-height:1.2;margin:0 0 12px;letter-spacing:-.01em}
+.lede{font-size:16px;max-width:760px}
+.lede p{margin:0 0 10px}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 6px}
+.btn{display:inline-block;border:1.5px solid var(--ink);padding:7px 14px;border-radius:6px;text-decoration:none;font-weight:600;font-size:14px}
+.btn.primary{background:var(--ink);color:#fff}
+.note{font-size:13px;color:var(--mute);margin-top:10px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:28px 0 8px}
+.tile{border:1px solid var(--line);border-radius:8px;padding:14px 16px;background:var(--soft)}
+.tile .n{font-size:24px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums}
+.tile .l{font-size:13px;color:var(--mute);margin-top:4px}
+section{margin-top:40px;border-top:1px solid var(--line);padding-top:20px}
+h2{font-size:20px;margin:0 0 12px}
+h3{font-size:16px;margin:22px 0 8px}
+h4{font-size:14px;margin:18px 0 6px}
+.tw{overflow-x:auto;margin:10px 0 16px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+code{font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--soft);padding:1px 4px;border-radius:3px}
+pre{background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:12px 14px;overflow-x:auto}
+pre code{background:none;padding:0}
+img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:6px}
+footer{margin-top:48px;font-size:12px;color:var(--mute);border-top:1px solid var(--line);padding-top:14px}
+</style></head>
+<body><main>
+<header>
+<p class="kicker">Demo · odyssey-doctor</p>
+<h1>odyssey-doctor</h1>
+<div class="lede"><p>Static checks for apps built on the <a href="https://documentation.api.odyssey.ml/">Odyssey API</a> JavaScript and Python SDKs. It reads source files only: no API key, no network calls, nothing executed.</p>
+<pre><code class="language-bash">python -m odyssey_doctor path/to/your/app          # human-readable
+python -m odyssey_doctor path/to/your/app --json   # for CI
+</code></pre>
+<p>Exit code is 1 when anything is found, so it can gate a CI step. Python 3.10+, no dependencies.</p></div>
+<div class="links"><a class="btn primary" href="https://github.com/pg2342-hub/odyssey-doctor">View the code on GitHub</a><a class="btn" href="#run">Run it yourself</a></div>
+<p class="note">Reads source files only: no API key, no network calls, nothing executed. Corpus results are aggregate only. Everything on this page is the committed output of the code in the repository.</p>
+</header>
+<div class="tiles"><div class="tile"><div class="n">9 checks</div><div class="l">key exposure, stream limits, session cleanup, usage errors</div></div><div class="tile"><div class="n">17</div><div class="l">public projects using the SDK, scanned at pinned commits</div></div><div class="tile"><div class="n">12 of 17</div><div class="l">projects with the API key reachable from browser code</div></div><div class="tile"><div class="n">18 tests</div><div class="l">one fixture per rule plus clean and regression fixtures</div></div></div>
+<section><h2>Results on public projects</h2><p>Run on 2026-11-19 with <code>python corpus/run_corpus.py</code>. Repositories were found with GitHub code search for the SDK import strings and are pinned to the commits in projects.csv. Repositories in the same group (copies of one project) count once. Results are aggregate only. OD002 (literal keys) is not reported for other people's public projects.</p>
+<p>20 repositories, 17 distinct projects using the SDK</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Check</th>
+<th>Projects</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OD001</td>
+<td>API key reachable from browser code</td>
+<td>12 of 17</td>
+</tr>
+<tr>
+<td>OD003</td>
+<td>No restart when a stream hits the 150-second limit</td>
+<td>12 of 17</td>
+</tr>
+<tr>
+<td>OD004</td>
+<td>Connection never released</td>
+<td>0 of 17</td>
+</tr>
+<tr>
+<td>OD005</td>
+<td>No cleanup on page exit or component unmount</td>
+<td>1 of 17</td>
+</tr>
+<tr>
+<td>OD006</td>
+<td>Usage limits not handled</td>
+<td>17 of 17</td>
+</tr>
+<tr>
+<td>OD007</td>
+<td>Wrong Python package</td>
+<td>1 of 17</td>
+</tr>
+<tr>
+<td>OD009</td>
+<td>Server route hands the raw API key to the browser</td>
+<td>4 of 17</td>
+</tr>
+<tr>
+<td>OD008</td>
+<td>Recovery path needs an API key the client does not have</td>
+<td>0 of 17</td>
+</tr>
+</tbody>
+</table></div>
+<p>Streaming projects (call startStream or start_stream): 12 of 17, and the 12 OD003 hits are exactly those 12. Projects using Simulations: 9 of 17. Python SDK projects: 5 of 17. Projects using client credentials: 1 of 17, and only to clean up old sessions.</p>
+<p>Cleanup: 12 projects open a connection from browser code. 11 of them release it when the page closes or the component unmounts (5 through the useOdyssey hook, 6 in their own code). The one OD005 hit only disconnects when the user switches modes.</p>
+<p>Last commits across the corpus run from 2026-01-23 to 2026-11-05. One large repository (eyeoverthink/fraynix) is cloned sparsely to its Odyssey code, set by the <code>paths</code> column in projects.csv.</p></section><section><h2>Sample output</h2><p>Run on the <code>key_relay</code> test fixture (a server route that returns the raw key):</p>
+<pre><code>$ python -m odyssey_doctor tests/fixtures/key_relay
+OD009  app/api/key/route.ts:2  Server route hands the raw API key to the browser
+       fix: An endpoint that returns the API key moves the leak, it does not stop it. Return client credentials from createClientCredentials() instead.
+
+1 issue(s) in 1 rule(s).
+</code></pre></section><section><h2>Checks</h2><div class="tw"><table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>What it flags</th>
+<th>Based on</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OD001</td>
+<td>API key used in browser code, or exposed through a public env prefix (NEXT_PUBLIC_, VITE_, REACT_APP_, EXPO_PUBLIC_)</td>
+<td>Client Credentials page</td>
+</tr>
+<tr>
+<td>OD002</td>
+<td>A literal <code>ody_</code> key committed in source (the value is never printed)</td>
+<td>Client Credentials page</td>
+</tr>
+<tr>
+<td>OD003</td>
+<td>Streams started, but no restart when the stream ends with <code>session_timeout</code> at the 150-second limit</td>
+<td>Stream Duration Limits page</td>
+</tr>
+<tr>
+<td>OD004</td>
+<td><code>connect()</code> with no <code>disconnect()</code> anywhere in the project</td>
+<td>Session Management page</td>
+</tr>
+<tr>
+<td>OD005</td>
+<td><code>disconnect()</code> exists but no page-exit or unmount handler calls it on the Odyssey client</td>
+<td>Session Management page</td>
+</tr>
+<tr>
+<td>OD006</td>
+<td>None of the typed usage errors handled (MonthlyLimitReachedError, ConcurrentLimitReachedError, RateLimitError, StreamDurationExceededError, AccountSuspendedError)</td>
+<td>SDK source (<code>throwIfUsageError</code>)</td>
+</tr>
+<tr>
+<td>OD007</td>
+<td><code>odyssey</code> from PyPI as a dependency (an unrelated project); the SDK installs from <code>git+https://github.com/odysseyml/odyssey-python.git</code></td>
+<td>Python SDK install docs</td>
+</tr>
+<tr>
+<td>OD008</td>
+<td>A client that joined with <code>connectWithCredentials()</code> calls <code>connect()</code> to recover, which requires an API key it does not have</td>
+<td>SDK source (<code>requireApiKey</code>)</td>
+</tr>
+<tr>
+<td>OD009</td>
+<td>A server route or function that returns the raw API key (in a JSON response or any returned object)</td>
+<td>Client Credentials page</td>
+</tr>
+</tbody>
+</table></div>
+<p>The React <code>useOdyssey</code> hook disconnects on unmount, so projects using it pass OD004 and OD005.</p></section><section><h2>Limits</h2><p>These are pattern checks, not a type checker. They can miss a key passed through several variables, and they treat any <code>session_timeout</code> handling as a restart. Public code also over-represents hackathon projects, so the corpus counts describe public code, not Odyssey's customer base.</p></section>
+<section id="run"><h2>Run it yourself</h2><pre><code class="language-bash">git clone https://github.com/pg2342-hub/odyssey-doctor &amp;&amp; cd odyssey-doctor
+python -m odyssey_doctor path/to/your/app          # human-readable
+python -m odyssey_doctor path/to/your/app --json   # for CI
+python -m unittest discover -s tests -v
+python corpus/run_corpus.py                        # re-run the public corpus
+</code></pre>
+<p>Exit code is 1 when anything is found, so it can gate a CI step. Python 3.10+, no dependencies.</p><p>Code: <a href="https://github.com/pg2342-hub/odyssey-doctor">https://github.com/pg2342-hub/odyssey-doctor</a></p></section>
+<footer>Source and full README at <a href="https://github.com/pg2342-hub/odyssey-doctor">https://github.com/pg2342-hub/odyssey-doctor</a>.</footer>
+</main></body></html>
