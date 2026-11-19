@@ -1,5 +1,7 @@
 # odyssey-doctor
 
+**Demo page (sample output and eval results, no install):** https://pg2342-hub.github.io/odyssey-doctor/
+
 Static checks for apps built on the [Odyssey API](https://documentation.api.odyssey.ml/) JavaScript and Python SDKs. It reads source files only: no API key, no network calls, nothing executed.
 
 ```bash
