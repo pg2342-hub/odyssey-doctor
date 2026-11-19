@@ -1,0 +1,2 @@
+aiohttp
+odyssey @ git+https://github.com/odysseyml/odyssey-python.git
