@@ -1,173 +1,231 @@
 <!doctype html>
 <html lang="en"><head>
 <!-- demo-chrome --><meta name="theme-color" content="#f4f2ec"><link rel="icon" href="https://pranavgudise.dev/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="https://pranavgudise.dev/kit/demo.css"><!-- /demo-chrome -->
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>odyssey-doctor</title>
-<meta name="description" content="Static checks for apps built on the Odyssey API JavaScript and Python SDKs, run on 17 public projects.">
+<meta name="description" content="Static checks for apps built on the Odyssey API JavaScript and Python SDKs, run on 17 public projects: 12 of 17 let browser code reach the API key.">
 <style>
-main{padding-bottom:24px}
-header .kicker{font:400 13px/1.4 var(--mono);letter-spacing:.02em;color:var(--ink-2);margin:56px 0 0}
-header .kicker+h1{margin-top:12px}
-.lede{font-size:18px;color:var(--ink-2);max-width:42em}.lede p{margin:0 0 12px}
-.links{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 8px}
-.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border:1px solid var(--rule);border-radius:999px;
-color:var(--ink);text-decoration:none;font:500 15px/1 var(--sans);transition:border-color .2s,background-color .2s}
-.btn:hover{border-color:var(--ink);color:var(--ink)}
-.btn.primary{background:var(--green);border-color:var(--green);color:#fff}.btn.primary:hover{background:var(--green-deep);color:#fff}
-.note{font-size:15px;color:var(--ink-2);margin-top:12px;max-width:46em}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:40px 0 8px}
-.tile{border:1px solid var(--rule);border-radius:16px;padding:18px 20px}
-.tile .n{font:400 36px/1.1 var(--serif);font-variant-numeric:tabular-nums}
-.tile .l{font-size:14px;color:var(--ink-2);margin-top:6px}
-section{margin-top:24px}
-h3{margin-top:32px}
-.tw{overflow-x:auto;margin:12px 0 20px}
-tr:last-child td{border-bottom:1px solid var(--rule)}
-img{display:block;max-width:100%;height:auto;background:#fff;border-radius:12px;
-box-shadow:0 1px 0 rgb(27 26 23/.06),0 30px 60px -30px rgb(27 26 23/.45);margin:16px 0}
-main>footer{margin-top:56px;font-size:14px;color:var(--ink-2)}
+.head h1{margin:40px 0 14px}
+.head .lead{max-width:44em}
+.note{color:var(--ink-2);font-size:15px;max-width:44em;margin-top:14px}
+h2+.note{margin-top:0}
+.point{font-size:17px;max-width:42em;margin:0}
+section[id]{scroll-margin-top:16px}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 14px;border-radius:999px;font:500 13px/1 var(--mono);letter-spacing:.04em;white-space:nowrap;background:var(--ink);color:var(--paper)}
+.chip::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--paper);transform:rotate(45deg)}
+/* verdict */
+.verdict{margin:36px 0 0;border:1px solid var(--rule);border-radius:16px;background:#fbfaf6;overflow:hidden}
+.vtop{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:16px 24px;border-bottom:1px solid var(--rule)}
+.vtop p{margin:0;color:var(--ink-2);font-size:15px;flex:1 1 18em}
+.vgate{font:400 22px/1 var(--serif)}
+.vbody{display:grid;grid-template-columns:minmax(0,17em) minmax(0,1fr);gap:28px 40px;padding:28px 24px;align-items:start}
+.vnum b{display:block;font:400 64px/1 var(--serif);letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.vnum span{display:block;margin-top:10px;color:var(--ink-2);font-size:14px;line-height:1.45;max-width:17em}
+.vline{font:400 25px/1.3 var(--serif);margin:0 0 12px;text-wrap:pretty}
+.vsay p:last-child{color:var(--ink-2);margin:0;max-width:40em}
+/* corpus strip: one square per project */
+.corpus{border:1px solid var(--rule);border-radius:16px;background:#fbfaf6;padding:14px 24px 16px;margin-top:18px}
+.clegend{display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;font-size:13px;color:var(--ink-2);margin-bottom:6px}
+.clegend span{display:inline-flex;align-items:center;gap:7px}
+.clegend i{width:12px;height:12px;border-radius:3px;border:1px solid var(--rule);background:#fff}
+.clegend i.h{background:var(--ink);border-color:var(--ink)}
+.clegend .cnote{margin-left:auto}
+.crow{display:grid;grid-template-columns:4.2em minmax(0,1fr) auto 5.2em;align-items:center;column-gap:16px;min-height:36px;border-top:1px solid var(--rule-soft)}
+.crule{font:500 12.5px/1 var(--mono)}
+.ctitle{font-size:14.5px;line-height:1.3;padding:6px 0}
+.csq{display:grid;grid-template-columns:repeat(17,16px);gap:4px}
+.csq i{display:block;width:16px;height:16px;border-radius:4px;border:1px solid var(--rule);background:#fff}
+.csq i.h{background:var(--ink);border-color:var(--ink)}
+.cn{text-align:right;font-size:13px;color:var(--ink-2);white-space:nowrap}
+.cn b{font:400 22px/1 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums}
+.crow.zero .ctitle{color:var(--ink-2)}
+/* the tool: fixture source on the left, terminal on the right */
+.desk{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:20px 24px;align-items:start;margin-top:24px}
+.pick{border:1px solid var(--rule);border-radius:16px;background:#fbfaf6;padding:20px 22px;min-width:0}
+h2.ph{all:unset;display:block;font:400 22px/1.25 var(--serif)}
+.pnote{margin:6px 0 14px;font-size:14px;color:var(--ink-2)}
+.exlist{display:flex;flex-wrap:wrap;gap:6px}
+.ex{min-height:36px;padding:0 12px;font:400 13.5px/1.2 var(--sans);gap:6px;background:#fff}
+.ex small{font-size:12.5px;color:var(--ink-2)}
+.ex[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.ex[aria-pressed=true] small{color:rgb(244 242 236/.72)}
+.src{margin-top:16px;display:grid;gap:10px}
+.file{border:1px solid var(--rule);border-radius:12px;background:#fff;overflow:hidden}
+.fname{font:500 12.5px/1 var(--mono);padding:10px 14px;border-bottom:1px solid var(--rule-soft);color:var(--ink-2)}
+.file ol{margin:0;padding:8px 0;list-style:none;counter-reset:ln;overflow-x:auto}
+.file li{counter-increment:ln;display:grid;grid-template-columns:2.6em minmax(0,1fr);margin:0;font:12.5px/1.65 var(--mono)}
+.file li::before{content:counter(ln);text-align:right;padding-right:12px;color:var(--ink-2);opacity:.6}
+.file li code{font-size:inherit;background:none;padding:0 14px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.file li.hit{background:rgb(27 26 23/.06);box-shadow:inset 3px 0 0 var(--ink)}
+.file li.hit::before{color:var(--ink);opacity:1;font-weight:600}
+.term{border-radius:16px;background:#1b1a17;color:#e9e6dc;overflow:hidden;min-width:0;box-shadow:0 24px 48px -32px rgb(27 26 23/.5)}
+.tbar{display:flex;align-items:center;gap:6px;padding:12px 16px;border-bottom:1px solid rgb(244 242 236/.1);font:12px/1 var(--mono);color:rgb(244 242 236/.55)}
+.tbar i{width:9px;height:9px;border-radius:50%;background:rgb(244 242 236/.2)}
+.tbar span{margin-left:8px}
+.term pre{margin:0;background:none;border-radius:0;padding:18px 20px 22px;font:13px/1.65 var(--mono);color:inherit;white-space:pre-wrap;word-break:break-word;min-height:320px}
+.term .pr{color:#9fc5ad}
+.term .rule{color:#1b1a17;background:#e9e6dc;border-radius:3px;padding:0 4px}
+.term .loc{color:rgb(244 242 236/.7)}
+.term b{font-weight:600;color:#fff}
+.term .fix{color:#9fc5ad}
+.term .ex1{color:#fff;font-weight:600}
+.term .ex0{color:#9fc5ad;font-weight:600}
+/* below the tool */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:56px;align-items:start;margin-top:8px}
+.side{position:sticky;top:24px;margin-top:64px;display:grid;gap:22px;font-size:14px;color:var(--ink-2)}
+.side h3{margin:0 0 6px;font:500 13px/1.3 var(--sans);color:var(--ink)}
+.side p{margin:0}
+.side nav a{display:block;padding:5px 0;color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule-soft)}
+.side nav a:hover{color:var(--ink)}
+.side pre{font-size:12px;margin:6px 0 0;white-space:pre;overflow-x:auto}
+.facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(14em,1fr));gap:12px;margin-top:18px}
+.fact{border:1px solid var(--rule);border-radius:16px;background:#fbfaf6;padding:16px 18px}
+.fact b{display:block;font:400 30px/1 var(--serif);font-variant-numeric:tabular-nums}
+.fact p{margin:8px 0 0;font-size:14px;color:var(--ink-2)}
+.checks td.r{font:500 12.5px/1.6 var(--mono);white-space:nowrap}
+.checks td.b{color:var(--ink-2);font-size:14px;min-width:10em}
+@media (max-width:1100px){
+ .csq{grid-template-columns:repeat(17,12px);gap:3px}
+ .csq i{width:12px;height:12px;border-radius:3px}
+}
+@media (max-width:1000px){
+ .layout{grid-template-columns:minmax(0,1fr);gap:0}
+ .side{position:static;margin-top:48px}
+ .desk{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:760px){
+ .vbody{grid-template-columns:minmax(0,1fr);gap:18px}
+ .vnum b{font-size:52px}
+ .vline{font-size:21px}
+ .crow{grid-template-columns:4em minmax(0,1fr) auto;row-gap:2px;padding:8px 0}
+ .ctitle{grid-column:2/-1;padding:0}
+ .csq{grid-column:1/3;grid-row:2}
+ .cn{grid-column:3;grid-row:2}
+ .clegend .cnote{margin-left:0}
+}
+@media (max-width:640px){
+ .vtop,.vbody,.corpus{padding-left:18px;padding-right:18px}
+ .corpus{padding-left:16px;padding-right:16px}
+ .csq{grid-template-columns:repeat(17,minmax(0,1fr));gap:2px}
+ .csq i{width:auto;aspect-ratio:1;height:auto}
+ .crow{grid-template-columns:minmax(0,1fr) auto}
+ .crule{grid-column:1/-1}
+ .ctitle{grid-column:1/-1}
+ .csq{grid-column:1;grid-row:3}
+ .cn{grid-column:2;grid-row:3}
+ .pick{padding:16px}
+ .term pre{font-size:12px;padding:14px 16px 18px;min-height:0}
+ .checks thead{display:none}
+ .checks,.checks tbody,.checks tr,.checks td{display:block}
+ .checks tr{padding:10px 0;border-bottom:1px solid var(--rule)}
+ .checks td{border:0;padding:0}
+ .checks td.b{margin-top:4px;font-size:13px}
+}
 </style></head>
 <body>
 <!-- demo-chrome --><header class="demo-top"><a class="demo-brand" href="https://pranavgudise.dev/"><svg class="demo-mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.25"/><g class="n"><path class="f" d="M15.5 8.5 L 13.4 13.4 L 8.5 15.5 L 10.6 10.6 Z"/></g><circle class="p" cx="12" cy="12" r=".7"/></svg><span>Pranav Gudise</span></a><a class="pill" href="https://github.com/pg2342-hub/odyssey-doctor">Code on GitHub</a></header><!-- /demo-chrome -->
-<main>
-<header>
-<p class="kicker">Demo · odyssey-doctor</p>
-<h1>odyssey-doctor</h1>
-<div class="lede"><p>Static checks for apps built on the <a href="https://documentation.api.odyssey.ml/">Odyssey API</a> JavaScript and Python SDKs. It reads source files only: no API key, no network calls, nothing executed.</p>
-<pre><code class="language-bash">python -m odyssey_doctor path/to/your/app          # human-readable
-python -m odyssey_doctor path/to/your/app --json   # for CI
-</code></pre>
-<p>Exit code is 1 when anything is found, so it can gate a CI step. Python 3.10+, no dependencies.</p></div>
-<div class="links"><a class="btn primary" href="https://github.com/pg2342-hub/odyssey-doctor">View the code on GitHub</a><a class="btn" href="#run">Run it yourself</a></div>
-<p class="note">Reads source files only: no API key, no network calls, nothing executed. Corpus results are aggregate only. Everything on this page is the committed output of the code in the repository.</p>
-</header>
-<div class="tiles"><div class="tile"><div class="n">9 checks</div><div class="l">key exposure, stream limits, session cleanup, usage errors</div></div><div class="tile"><div class="n">17</div><div class="l">public projects using the SDK, scanned at pinned commits</div></div><div class="tile"><div class="n">12 of 17</div><div class="l">projects with the API key reachable from browser code</div></div><div class="tile"><div class="n">18 tests</div><div class="l">one fixture per rule plus clean and regression fixtures</div></div></div>
-<section><h2>Results on public projects</h2><p>Run on 2026-11-19 with <code>python corpus/run_corpus.py</code>. Repositories were found with GitHub code search for the SDK import strings and are pinned to the commits in projects.csv. Repositories in the same group (copies of one project) count once. Results are aggregate only. OD002 (literal keys) is not reported for other people's public projects.</p>
-<p>20 repositories, 17 distinct projects using the SDK</p>
-<div class="tw"><table>
-<thead>
-<tr>
-<th>Rule</th>
-<th>Check</th>
-<th>Projects</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>OD001</td>
-<td>API key reachable from browser code</td>
-<td>12 of 17</td>
-</tr>
-<tr>
-<td>OD003</td>
-<td>No restart when a stream hits the 150-second limit</td>
-<td>12 of 17</td>
-</tr>
-<tr>
-<td>OD004</td>
-<td>Connection never released</td>
-<td>0 of 17</td>
-</tr>
-<tr>
-<td>OD005</td>
-<td>No cleanup on page exit or component unmount</td>
-<td>1 of 17</td>
-</tr>
-<tr>
-<td>OD006</td>
-<td>Usage limits not handled</td>
-<td>17 of 17</td>
-</tr>
-<tr>
-<td>OD007</td>
-<td>Wrong Python package</td>
-<td>1 of 17</td>
-</tr>
-<tr>
-<td>OD009</td>
-<td>Server route hands the raw API key to the browser</td>
-<td>4 of 17</td>
-</tr>
-<tr>
-<td>OD008</td>
-<td>Recovery path needs an API key the client does not have</td>
-<td>0 of 17</td>
-</tr>
-</tbody>
-</table></div>
-<p>Streaming projects (call startStream or start_stream): 12 of 17, and the 12 OD003 hits are exactly those 12. Projects using Simulations: 9 of 17. Python SDK projects: 5 of 17. Projects using client credentials: 1 of 17, and only to clean up old sessions.</p>
-<p>Cleanup: 12 projects open a connection from browser code. 11 of them release it when the page closes or the component unmounts (5 through the useOdyssey hook, 6 in their own code). The one OD005 hit only disconnects when the user switches modes.</p>
-<p>Last commits across the corpus run from 2026-01-23 to 2026-11-05. One large repository (eyeoverthink/fraynix) is cloned sparsely to its Odyssey code, set by the <code>paths</code> column in projects.csv.</p></section><section><h2>Sample output</h2><p>Run on the <code>key_relay</code> test fixture (a server route that returns the raw key):</p>
-<pre><code>$ python -m odyssey_doctor tests/fixtures/key_relay
-OD009  app/api/key/route.ts:2  Server route hands the raw API key to the browser
-       fix: An endpoint that returns the API key moves the leak, it does not stop it. Return client credentials from createClientCredentials() instead.
 
-1 issue(s) in 1 rule(s).
-</code></pre></section><section><h2>Checks</h2><div class="tw"><table>
-<thead>
-<tr>
-<th>Rule</th>
-<th>What it flags</th>
-<th>Based on</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>OD001</td>
-<td>API key used in browser code, or exposed through a public env prefix (NEXT_PUBLIC_, VITE_, REACT_APP_, EXPO_PUBLIC_)</td>
-<td>Client Credentials page</td>
-</tr>
-<tr>
-<td>OD002</td>
-<td>A literal <code>ody_</code> key committed in source (the value is never printed)</td>
-<td>Client Credentials page</td>
-</tr>
-<tr>
-<td>OD003</td>
-<td>Streams started, but no restart when the stream ends with <code>session_timeout</code> at the 150-second limit</td>
-<td>Stream Duration Limits page</td>
-</tr>
-<tr>
-<td>OD004</td>
-<td><code>connect()</code> with no <code>disconnect()</code> anywhere in the project</td>
-<td>Session Management page</td>
-</tr>
-<tr>
-<td>OD005</td>
-<td><code>disconnect()</code> exists but no page-exit or unmount handler calls it on the Odyssey client</td>
-<td>Session Management page</td>
-</tr>
-<tr>
-<td>OD006</td>
-<td>None of the typed usage errors handled (MonthlyLimitReachedError, ConcurrentLimitReachedError, RateLimitError, StreamDurationExceededError, AccountSuspendedError)</td>
-<td>SDK source (<code>throwIfUsageError</code>)</td>
-</tr>
-<tr>
-<td>OD007</td>
-<td><code>odyssey</code> from PyPI as a dependency (an unrelated project); the SDK installs from <code>git+https://github.com/odysseyml/odyssey-python.git</code></td>
-<td>Python SDK install docs</td>
-</tr>
-<tr>
-<td>OD008</td>
-<td>A client that joined with <code>connectWithCredentials()</code> calls <code>connect()</code> to recover, which requires an API key it does not have</td>
-<td>SDK source (<code>requireApiKey</code>)</td>
-</tr>
-<tr>
-<td>OD009</td>
-<td>A server route or function that returns the raw API key (in a JSON response or any returned object)</td>
-<td>Client Credentials page</td>
-</tr>
-</tbody>
-</table></div>
-<p>The React <code>useOdyssey</code> hook disconnects on unmount, so projects using it pass OD004 and OD005.</p></section><section><h2>Limits</h2><p>These are pattern checks, not a type checker. They can miss a key passed through several variables, and they treat any <code>session_timeout</code> handling as a restart. Public code also over-represents hackathon projects, so the corpus counts describe public code, not Odyssey's customer base.</p></section>
-<section id="run"><h2>Run it yourself</h2><pre><code class="language-bash">git clone https://github.com/pg2342-hub/odyssey-doctor &amp;&amp; cd odyssey-doctor
-python -m odyssey_doctor path/to/your/app          # human-readable
-python -m odyssey_doctor path/to/your/app --json   # for CI
-python -m unittest discover -s tests -v
-python corpus/run_corpus.py                        # re-run the public corpus
-</code></pre>
-<p>Exit code is 1 when anything is found, so it can gate a CI step. Python 3.10+, no dependencies.</p><p>Code: <a href="https://github.com/pg2342-hub/odyssey-doctor">https://github.com/pg2342-hub/odyssey-doctor</a></p></section>
-<footer>Source and full README at <a href="https://github.com/pg2342-hub/odyssey-doctor">https://github.com/pg2342-hub/odyssey-doctor</a>.</footer>
-</main><!-- demo-chrome --><footer class="demo-foot"><span>A working build by <a href="https://pranavgudise.dev/">Pranav Gudise</a>. Synthetic or public data only.</span><a href="https://github.com/pg2342-hub/odyssey-doctor">github.com/pg2342-hub/odyssey-doctor</a></footer><!-- /demo-chrome -->
+<main>
+<div class="head">
+<h1>odyssey-doctor</h1>
+<p class="lead">Static checks for apps built on the Odyssey API JavaScript and Python SDKs. It reads source files only: no API key, no network calls, nothing executed.</p>
+</div>
+
+<section class="verdict" aria-label="Results on public projects">
+  <div class="vtop">
+    <span class="chip">Every project has a finding</span>
+    <p>17 public projects using the SDK, scanned at pinned commits on 2026-11-19</p>
+    <span class="vgate">9 checks</span>
+  </div>
+  <div class="vbody">
+    <div class="vnum"><b>12 of 17</b><span>public projects let browser code reach the API key</span></div>
+    <div class="vsay">
+      <p class="vline">Most public apps on the SDK ship the key to the browser and never restart a stream at the 150-second limit. None handle the typed usage-limit errors.</p>
+      <p>4 of 17 add a server route that hands the raw key to the browser, which moves the leak instead of stopping it. Connection cleanup is mostly right: 11 of the 12 projects that connect from browser code release the connection.</p>
+    </div>
+  </div>
+</section>
+
+<section class="desk" id="tool" aria-label="Try the checker">
+  <div class="pick">
+    <h2 class="ph">Run it on a test fixture</h2>
+    <p class="pnote">Real output from <code>python -m odyssey_doctor</code>, captured from the repository's test fixtures. Flagged lines are marked in the source.</p>
+    <div class="exlist" role="group" aria-label="Fixture"><button type="button" class="ex" data-fx="browser_key" aria-pressed="true">Key in browser code <small>3 found</small></button><button type="button" class="ex" data-fx="public_env" aria-pressed="false">Public env prefix <small>1 found</small></button><button type="button" class="ex" data-fx="key_relay" aria-pressed="false">Route returns the key <small>1 found</small></button><button type="button" class="ex" data-fx="no_timeout" aria-pressed="false">No stream restart <small>3 found</small></button><button type="button" class="ex" data-fx="no_cleanup" aria-pressed="false">No unmount cleanup <small>3 found</small></button><button type="button" class="ex" data-fx="creds_reconnect" aria-pressed="false">Reconnect without a key <small>2 found</small></button><button type="button" class="ex" data-fx="wrong_pip" aria-pressed="false">Wrong Python package <small>1 found</small></button><button type="button" class="ex" data-fx="clean_js" aria-pressed="false">Clean project <small>0 found</small></button></div>
+    <div class="src" id="src"></div>
+  </div>
+  <div class="term" aria-live="polite">
+    <div class="tbar"><i></i><i></i><i></i><span id="tcwd">odyssey-doctor</span></div>
+    <pre id="tout"></pre>
+  </div>
+</section>
+
+<div class="layout">
+<div class="content">
+
+<section id="results">
+<h2>Results on public projects</h2>
+<p class="note">Run on 2026-11-19 with <code>python corpus/run_corpus.py</code>. Repositories were found with GitHub code search for the SDK import strings and are pinned to the commits in projects.csv. Repositories in the same group (copies of one project) count once: 20 repositories, 17 distinct projects. Results are aggregate only. OD002 (literal keys) is not reported for other people's public projects.</p>
+  <div class="corpus chart" id="corpus">
+    <div class="clegend" aria-hidden="true"><span><i class="h"></i>Project flagged</span><span><i></i>Passes</span><span class="cnote">One square per project, sorted by count. Aggregate only.</span></div>
+    <div class="crow"><span class="crule">OD006</span><span class="ctitle">Usage limits not handled</span><span class="csq" role="img" aria-label="17 of 17 projects"><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i></span><span class="cn"><b>17</b> of 17</span></div><div class="crow"><span class="crule">OD001</span><span class="ctitle">API key reachable from browser code</span><span class="csq" role="img" aria-label="12 of 17 projects"><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="cn"><b>12</b> of 17</span></div><div class="crow"><span class="crule">OD003</span><span class="ctitle">No restart when a stream hits the 150-second limit</span><span class="csq" role="img" aria-label="12 of 17 projects"><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="cn"><b>12</b> of 17</span></div><div class="crow"><span class="crule">OD009</span><span class="ctitle">Server route hands the raw API key to the browser</span><span class="csq" role="img" aria-label="4 of 17 projects"><i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="cn"><b>4</b> of 17</span></div><div class="crow"><span class="crule">OD005</span><span class="ctitle">No cleanup on page exit or component unmount</span><span class="csq" role="img" aria-label="1 of 17 projects"><i class="h"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="cn"><b>1</b> of 17</span></div><div class="crow"><span class="crule">OD007</span><span class="ctitle">Wrong Python package</span><span class="csq" role="img" aria-label="1 of 17 projects"><i class="h"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="cn"><b>1</b> of 17</span></div><div class="crow zero"><span class="crule">OD004</span><span class="ctitle">Connection never released</span><span class="csq" role="img" aria-label="0 of 17 projects"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="cn"><b>0</b> of 17</span></div><div class="crow zero"><span class="crule">OD008</span><span class="ctitle">Recovery path needs an API key the client does not have</span><span class="csq" role="img" aria-label="0 of 17 projects"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="cn"><b>0</b> of 17</span></div>
+  </div>
+<div class="facts">
+  <div class="fact"><b>12 of 17</b><p>Streaming projects (call startStream or start_stream). The 12 OD003 hits are exactly those 12.</p></div>
+  <div class="fact"><b>11 of 12</b><p>Projects that open a connection from browser code and release it when the page closes or the component unmounts (5 through the useOdyssey hook, 6 in their own code). The one OD005 hit only disconnects when the user switches modes.</p></div>
+  <div class="fact"><b>9 of 17</b><p>Projects using Simulations.</p></div>
+  <div class="fact"><b>5 of 17</b><p>Python SDK projects.</p></div>
+  <div class="fact"><b>1 of 17</b><p>Projects using client credentials, and only to clean up old sessions.</p></div>
+</div>
+<p class="note">Last commits across the corpus run from 2026-01-23 to 2026-11-05. One large repository (eyeoverthink/fraynix) is cloned sparsely to its Odyssey code, set by the <code>paths</code> column in projects.csv.</p>
+</section>
+
+<section id="checks">
+<h2>Checks</h2>
+<table class="checks"><thead><tr><th>Rule</th><th>What it flags</th><th>Based on</th></tr></thead><tbody><tr><td class=r>OD001</td><td>API key used in browser code, or exposed through a public env prefix (NEXT_PUBLIC_, VITE_, REACT_APP_, EXPO_PUBLIC_)</td><td class=b>Client Credentials page</td></tr><tr><td class=r>OD002</td><td>A literal <code>ody_</code> key committed in source (the value is never printed)</td><td class=b>Client Credentials page</td></tr><tr><td class=r>OD003</td><td>Streams started, but no restart when the stream ends with <code>session_timeout</code> at the 150-second limit</td><td class=b>Stream Duration Limits page</td></tr><tr><td class=r>OD004</td><td><code>connect()</code> with no <code>disconnect()</code> anywhere in the project</td><td class=b>Session Management page</td></tr><tr><td class=r>OD005</td><td><code>disconnect()</code> exists but no page-exit or unmount handler calls it on the Odyssey client</td><td class=b>Session Management page</td></tr><tr><td class=r>OD006</td><td>None of the typed usage errors handled (MonthlyLimitReachedError, ConcurrentLimitReachedError, RateLimitError, StreamDurationExceededError, AccountSuspendedError)</td><td class=b>SDK source (<code>throwIfUsageError</code>)</td></tr><tr><td class=r>OD007</td><td><code>odyssey</code> from PyPI as a dependency (an unrelated project); the SDK installs from <code>git+https://github.com/odysseyml/odyssey-python.git</code></td><td class=b>Python SDK install docs</td></tr><tr><td class=r>OD008</td><td>A client that joined with <code>connectWithCredentials()</code> calls <code>connect()</code> to recover, which requires an API key it does not have</td><td class=b>SDK source (<code>requireApiKey</code>)</td></tr><tr><td class=r>OD009</td><td>A server route or function that returns the raw API key (in a JSON response or any returned object)</td><td class=b>Client Credentials page</td></tr></tbody></table>
+<p class="note">The React <code>useOdyssey</code> hook disconnects on unmount, so projects using it pass OD004 and OD005.</p>
+</section>
+
+<section id="limits">
+<h2>Limits</h2>
+<p class="point">These are pattern checks, not a type checker. They can miss a key passed through several variables, and they treat any <code>session_timeout</code> handling as a restart. Public code also over-represents hackathon projects, so the corpus counts describe public code, not Odyssey's customer base.</p>
+</section>
+</div>
+
+<aside class="side" aria-label="About this build">
+  <nav aria-label="On this page"><a href="#tool">Run it on a fixture</a><a href="#results">Results on public projects</a><a href="#checks">Checks</a><a href="#limits">Limits</a></nav>
+  <div><h3>Data</h3><p>17 public projects using the SDK, at pinned commits. Results are aggregate only. Rules are based on the public <a href="https://documentation.api.odyssey.ml/">Odyssey API documentation</a> and SDK source. Everything on this page is the committed output of the code in the repository.</p></div>
+  <div><h3>Run it yourself</h3><p>Python 3.10+, no dependencies. Exit code is 1 when anything is found, so it can gate a CI step.</p><pre>python -m odyssey_doctor \
+  path/to/app
+python -m odyssey_doctor \
+  path/to/app --json
+python -m unittest \
+  discover -s tests -v
+python corpus/run_corpus.py</pre></div>
+  <div><a class="pill" href="https://github.com/pg2342-hub/odyssey-doctor">Code on GitHub</a></div>
+</aside>
+</div>
+</main>
+<script>
+const FX = [{"name": "browser_key", "label": "Key in browser code", "out": "OD001  App.tsx:2  API key reachable from browser code\n       fix: Browser bundles are public. Mint short-lived client credentials on a server (Client Credentials page).\nOD004  App.tsx:3  Connection never released\n       fix: connect() without disconnect() leaves a session holding a concurrency slot until the server times it out (Session Management page).\nOD006  App.tsx:3  Usage limits not handled\n       fix: Monthly hours, concurrent streams and rate limits arrive as typed 429 errors (MonthlyLimitReachedError, ConcurrentLimitReachedError, RateLimitError). Catch them and tell the user.\n\n3 issue(s) in 3 rule(s).", "code": 1, "files": [{"path": "App.tsx", "text": "import { Odyssey } from '@odysseyml/odyssey';\nconst client = new Odyssey({ apiKey: 'ody_your_api_key_here' });\nexport default function App() { return <button onClick={() => client.connect()}>Go<\/button>; }\n", "lines": [2, 3]}], "n": 3}, {"name": "public_env", "label": "Public env prefix", "out": "OD001  odyssey.ts:2  API key reachable from browser code (NEXT_PUBLIC_ODYSSEY_API_KEY)\n       fix: Browser bundles are public. Mint short-lived client credentials on a server (Client Credentials page).\n\n1 issue(s) in 1 rule(s).", "code": 1, "files": [{"path": "odyssey.ts", "text": "import { Odyssey } from '@odysseyml/odyssey';\nexport const client = new Odyssey({ apiKey: process.env.NEXT_PUBLIC_ODYSSEY_API_KEY });\n", "lines": [2]}], "n": 1}, {"name": "key_relay", "label": "Route returns the key", "out": "OD009  app/api/key/route.ts:2  Server route hands the raw API key to the browser\n       fix: An endpoint that returns the API key moves the leak, it does not stop it. Return client credentials from createClientCredentials() instead.\n\n1 issue(s) in 1 rule(s).", "code": 1, "files": [{"path": "app/api/key/route.ts", "text": "import { NextResponse } from 'next/server';\nexport async function GET() { return NextResponse.json({ apiKey: process.env.ODYSSEY_API_KEY }); }\n", "lines": [2]}, {"path": "app/page.tsx", "text": "'use client';\nimport { Odyssey } from '@odysseyml/odyssey';\nexport default function Page() { return null; }\n", "lines": []}], "n": 1}, {"name": "no_timeout", "label": "No stream restart", "out": "OD003  run.ts:3  No restart when a stream hits the 150-second limit\n       fix: Streams end with reason 'session_timeout' after 150 s. Handle onStreamError / on_stream_error and restart (Stream Duration Limits page).\nOD005  run.ts:3  No cleanup on page exit or component unmount\n       fix: Closed tabs and hot reloads leave dangling sessions. Disconnect in beforeunload / useEffect cleanup (Session Management page).\nOD006  run.ts:3  Usage limits not handled\n       fix: Monthly hours, concurrent streams and rate limits arrive as typed 429 errors (MonthlyLimitReachedError, ConcurrentLimitReachedError, RateLimitError). Catch them and tell the user.\n\n3 issue(s) in 3 rule(s).", "code": 1, "files": [{"path": "run.ts", "text": "import { Odyssey } from '@odysseyml/odyssey';\nconst client = new Odyssey({ apiKey: process.env.ODYSSEY_API_KEY });\ntry { await client.connect(); await client.startStream({ prompt: 'A cat' }); } finally { client.disconnect(); }\n", "lines": [3]}], "n": 3}, {"name": "no_cleanup", "label": "No unmount cleanup", "out": "OD003  Viewer.tsx:5  No restart when a stream hits the 150-second limit\n       fix: Streams end with reason 'session_timeout' after 150 s. Handle onStreamError / on_stream_error and restart (Stream Duration Limits page).\nOD005  Viewer.tsx:6  No cleanup on page exit or component unmount\n       fix: Closed tabs and hot reloads leave dangling sessions. Disconnect in beforeunload / useEffect cleanup (Session Management page).\nOD006  Viewer.tsx:5  Usage limits not handled\n       fix: Monthly hours, concurrent streams and rate limits arrive as typed 429 errors (MonthlyLimitReachedError, ConcurrentLimitReachedError, RateLimitError). Catch them and tell the user.\n\n3 issue(s) in 3 rule(s).", "code": 1, "files": [{"path": "Viewer.tsx", "text": "'use client';\nimport { Odyssey } from '@odysseyml/odyssey';\nexport function Viewer({ creds }) {\n  const client = new Odyssey();\n  const go = async () => { await client.connectWithCredentials(creds, { onStreamError: () => {} }); await client.startStream({ prompt: 'A lake' }); };\n  const stop = () => client.disconnect();\n  return <div onClick={go} onDoubleClick={stop} />;\n}\n", "lines": [5, 6]}], "n": 3}, {"name": "creds_reconnect", "label": "Reconnect without a key", "out": "OD006  Viewer.tsx:7  Usage limits not handled\n       fix: Monthly hours, concurrent streams and rate limits arrive as typed 429 errors (MonthlyLimitReachedError, ConcurrentLimitReachedError, RateLimitError). Catch them and tell the user.\nOD008  Viewer.tsx:7  Recovery path needs an API key the client does not have\n       fix: A client that joined with connectWithCredentials() cannot call connect() (it requires an API key). Fetch fresh credentials from your server instead.\n\n2 issue(s) in 2 rule(s).", "code": 1, "files": [{"path": "Viewer.tsx", "text": "'use client';\nimport { useEffect } from 'react';\nimport { Odyssey } from '@odysseyml/odyssey';\nexport function Viewer({ creds }) {\n  useEffect(() => {\n    const client = new Odyssey();\n    client.connectWithCredentials(creds, {\n      onStreamError: async (reason) => { if (reason === 'session_timeout') { await client.connect(); } },\n    });\n    return () => client.disconnect();\n  }, []);\n  return null;\n}\n", "lines": [7]}], "n": 2}, {"name": "wrong_pip", "label": "Wrong Python package", "out": "OD007  requirements.txt:1  Wrong Python package\n       fix: PyPI's 'odyssey' is an unrelated project. Install the SDK from git+https://github.com/odysseyml/odyssey-python.git.\n\n1 issue(s) in 1 rule(s).", "code": 1, "files": [{"path": "app.py", "text": "import os\nfrom odyssey import Odyssey\nclient = Odyssey(api_key=os.environ[\"ODYSSEY_API_KEY\"])\n", "lines": []}, {"path": "requirements.txt", "text": "odyssey>=1.0.0\naiohttp\n", "lines": [1]}], "n": 1}, {"name": "clean_js", "label": "Clean project", "out": "No issues found.", "code": 0, "files": [{"path": "Player.tsx", "text": "'use client';\nimport { useEffect } from 'react';\nimport { Odyssey, credentialsFromDict, MonthlyLimitReachedError, ConcurrentLimitReachedError } from '@odysseyml/odyssey';\nexport function Player() {\n  useEffect(() => {\n    const client = new Odyssey();\n    async function start() {\n      const creds = credentialsFromDict(await (await fetch('/api/credentials', { method: 'POST' })).json());\n      try {\n        await client.connectWithCredentials(creds, {\n          onStreamError: (reason) => { if (reason === 'session_timeout') { client.disconnect(); start(); } },\n        });\n        await client.startStream({ prompt: 'A forest' });\n      } catch (e) {\n        if (e instanceof MonthlyLimitReachedError || e instanceof ConcurrentLimitReachedError) { /* tell the user */ }\n      }\n    }\n    start();\n    return () => client.disconnect();\n  }, []);\n  return null;\n}\n", "lines": []}, {"path": "server/credentials.ts", "text": "import express from 'express';\nimport { Odyssey, credentialsToDict } from '@odysseyml/odyssey';\nconst app = express();\nconst server = new Odyssey({ apiKey: process.env.ODYSSEY_API_KEY! });\napp.post('/api/credentials', async (_req, res) => res.json(credentialsToDict(await server.createClientCredentials())));\n", "lines": []}], "n": 0}];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function show(name) {
+  const d = FX.find(x => x.name === name);
+  document.querySelectorAll('.ex').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.fx === name)));
+  document.getElementById('src').innerHTML = d.files.map(f => {
+    const lines = f.text.replace(/\n$/, '').split('\n');
+    return `<div class="file"><div class="fname">${esc(f.path)}</div><ol>` + lines.map((l, i) =>
+      `<li class="${f.lines.includes(i + 1) ? 'hit' : ''}"><code>${esc(l) || ' '}</code></li>`).join('') + '</ol></div>';
+  }).join('');
+  const out = esc(d.out)
+    .replace(/^(OD\d{3})(\s+)(\S+)(\s+)(.*)$/gm, '<span class="rule">$1</span>$2<span class="loc">$3</span>$4<b>$5</b>')
+    .replace(/^(\s+fix:)/gm, '<span class="fix">$1</span>');
+  document.getElementById('tout').innerHTML =
+    `<span class="pr">$</span> python -m odyssey_doctor tests/fixtures/${esc(d.name)}\n${out}\n<span class="pr">$</span> echo $?\n<span class="${d.code ? 'ex1' : 'ex0'}">${d.code}</span>`;
+}
+document.querySelectorAll('.ex').forEach(b => b.addEventListener('click', () => show(b.dataset.fx)));
+show(FX[0].name);
+</script>
+<!-- demo-chrome --><footer class="demo-foot"><span>A working build by <a href="https://pranavgudise.dev/">Pranav Gudise</a>. Synthetic or public data only.</span><a href="https://github.com/pg2342-hub/odyssey-doctor">github.com/pg2342-hub/odyssey-doctor</a></footer><!-- /demo-chrome -->
 </body></html>
